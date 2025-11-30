@@ -109,6 +109,228 @@ body::after {
     z-index: -1;
 }
 
+/* Cyberpunk Cityscape Background */
+.cityscape {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 55vh;
+    pointer-events: none;
+    z-index: -3;
+    overflow: hidden;
+}
+
+/* Distant buildings layer - taller, more visible */
+.city-layer-back {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background:
+        /* Tall skyscrapers */
+        linear-gradient(to bottom, transparent 0%, transparent 5%, #1a1a28 5%) 3% 0 / 3% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 15%, #1a1a28 15%) 7% 0 / 4% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 0%, #1a1a28 0%) 12% 0 / 2.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 20%, #1a1a28 20%) 16% 0 / 5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 8%, #1a1a28 8%) 22% 0 / 3.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 25%, #1a1a28 25%) 27% 0 / 4.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 12%, #1a1a28 12%) 33% 0 / 3% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 30%, #1a1a28 30%) 38% 0 / 6% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 3%, #1a1a28 3%) 45% 0 / 2.8% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 18%, #1a1a28 18%) 50% 0 / 4% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 10%, #1a1a28 10%) 55% 0 / 3.2% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 28%, #1a1a28 28%) 60% 0 / 5.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 6%, #1a1a28 6%) 67% 0 / 2.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 22%, #1a1a28 22%) 72% 0 / 4.8% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 15%, #1a1a28 15%) 78% 0 / 3.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 32%, #1a1a28 32%) 84% 0 / 6.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 8%, #1a1a28 8%) 92% 0 / 3% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 20%, #1a1a28 20%) 97% 0 / 4% 100% no-repeat;
+    opacity: 0.7;
+    animation: cityDrift 120s linear infinite;
+}
+
+/* Mid buildings layer - solid, prominent */
+.city-layer-mid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 85%;
+    background:
+        linear-gradient(to bottom, transparent 0%, transparent 25%, #151520 25%) 1% 0 / 5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 35%, #151520 35%) 8% 0 / 6% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 20%, #151520 20%) 16% 0 / 4% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 40%, #151520 40%) 23% 0 / 7% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 30%, #151520 30%) 32% 0 / 5.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 45%, #151520 45%) 40% 0 / 6.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 28%, #151520 28%) 49% 0 / 4.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 38%, #151520 38%) 56% 0 / 5.8% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 22%, #151520 22%) 64% 0 / 4.2% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 42%, #151520 42%) 71% 0 / 7.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 32%, #151520 32%) 81% 0 / 5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 48%, #151520 48%) 89% 0 / 6% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 35%, #151520 35%) 97% 0 / 5.5% 100% no-repeat;
+    opacity: 0.85;
+    animation: cityDrift 80s linear infinite;
+}
+
+/* Front buildings layer - darkest, most prominent */
+.city-layer-front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 65%;
+    background:
+        linear-gradient(to bottom, transparent 0%, transparent 40%, #0a0a12 40%) 0% 0 / 7% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 55%, #0a0a12 55%) 9% 0 / 8% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 35%, #0a0a12 35%) 20% 0 / 6% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 60%, #0a0a12 60%) 29% 0 / 9% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 45%, #0a0a12 45%) 41% 0 / 6.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 65%, #0a0a12 65%) 50% 0 / 8.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 38%, #0a0a12 38%) 62% 0 / 5.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 58%, #0a0a12 58%) 70% 0 / 7.5% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 50%, #0a0a12 50%) 80% 0 / 6.8% 100% no-repeat,
+        linear-gradient(to bottom, transparent 0%, transparent 68%, #0a0a12 68%) 89% 0 / 9.5% 100% no-repeat;
+    opacity: 1;
+    animation: cityDrift 60s linear infinite;
+}
+
+/* Neon lights attached to front buildings */
+/* Front buildings positions: 0%/7%, 9%/8%, 20%/6%, 29%/9%, 41%/6.5%, 50%/8.5%, 62%/5.5%, 70%/7.5%, 80%/6.8%, 89%/9.5% */
+.city-neon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 65%;
+    background:
+        /* Building 1 (0-7%) - top at 40% */
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 0% 40% / 7% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 1% 50% / 5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.9) 0%, transparent 100%) 2% 55% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 4% 60% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.9) 0%, transparent 100%) 5% 48% / 2px 2px no-repeat,
+
+        /* Building 2 (9-17%) - top at 55% */
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 9% 55% / 8% 2px no-repeat,
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 10% 65% / 6% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.9) 0%, transparent 100%) 11% 60% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 0, 255, 0.8) 0%, transparent 100%) 13% 70% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 15% 75% / 2px 2px no-repeat,
+
+        /* Building 3 (20-26%) - top at 35% */
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 20% 35% / 6% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 21% 45% / 4% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.9) 0%, transparent 100%) 22% 40% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 23% 50% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 24% 55% / 2px 2px no-repeat,
+
+        /* Building 4 (29-38%) - top at 60% */
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 29% 60% / 9% 2px no-repeat,
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 30% 70% / 7% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 31% 80% / 5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.9) 0%, transparent 100%) 32% 65% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.8) 0%, transparent 100%) 34% 75% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 36% 85% / 2px 2px no-repeat,
+
+        /* Building 5 (41-47.5%) - top at 45% */
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 41% 45% / 6.5% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 42% 55% / 4.5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 0, 255, 0.9) 0%, transparent 100%) 43% 50% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 45% 60% / 2px 2px no-repeat,
+
+        /* Building 6 (50-58.5%) - top at 65% */
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 50% 65% / 8.5% 2px no-repeat,
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 51% 75% / 6.5% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 52% 85% / 4.5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.9) 0%, transparent 100%) 53% 70% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 55% 80% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 57% 90% / 2px 2px no-repeat,
+
+        /* Building 7 (62-67.5%) - top at 38% */
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 62% 38% / 5.5% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 63% 48% / 3.5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 0, 255, 0.9) 0%, transparent 100%) 64% 43% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 65% 53% / 2px 2px no-repeat,
+
+        /* Building 8 (70-77.5%) - top at 58% */
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 70% 58% / 7.5% 2px no-repeat,
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 71% 68% / 5.5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.9) 0%, transparent 100%) 72% 63% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 74% 73% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 76% 83% / 2px 2px no-repeat,
+
+        /* Building 9 (80-86.8%) - top at 50% */
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 80% 50% / 6.8% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 81% 60% / 4.8% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 0, 255, 0.9) 0%, transparent 100%) 82% 55% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 84% 65% / 2px 2px no-repeat,
+
+        /* Building 10 (89-98.5%) - top at 68% */
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 89% 68% / 9.5% 2px no-repeat,
+        linear-gradient(90deg, var(--neon-cyan), var(--neon-cyan)) 90% 78% / 7.5% 2px no-repeat,
+        linear-gradient(90deg, var(--hot-pink), var(--hot-pink)) 91% 88% / 5.5% 2px no-repeat,
+        radial-gradient(circle 2px, rgba(0, 255, 255, 0.9) 0%, transparent 100%) 92% 73% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.8) 0%, transparent 100%) 94% 83% / 2px 2px no-repeat,
+        radial-gradient(circle 2px, rgba(255, 200, 100, 0.7) 0%, transparent 100%) 96% 93% / 2px 2px no-repeat;
+    filter: blur(0.5px);
+    opacity: 1;
+    animation: cityDrift 60s linear infinite, neonPulse 3s ease-in-out infinite;
+}
+
+/* Horizon glow - more intense */
+.city-glow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background:
+        linear-gradient(to top,
+            rgba(255, 0, 255, 0.25) 0%,
+            rgba(0, 255, 255, 0.15) 20%,
+            rgba(255, 0, 255, 0.08) 40%,
+            transparent 100%);
+    pointer-events: none;
+}
+
+/* Neon glow behind buildings - aligned with front buildings */
+.city-layer-front::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background:
+        /* Glow for each building */
+        radial-gradient(ellipse 50px 80px at 3.5% 70%, rgba(0, 255, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 60px 90px at 13% 77%, rgba(255, 0, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 45px 70px at 23% 67%, rgba(0, 255, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 70px 100px at 33.5% 80%, rgba(255, 0, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 50px 75px at 44.25% 72%, rgba(0, 255, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 65px 95px at 54.25% 82%, rgba(255, 0, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 42px 65px at 64.75% 69%, rgba(0, 255, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 58px 85px at 73.75% 79%, rgba(255, 0, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 52px 78px at 83.4% 75%, rgba(0, 255, 255, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 72px 105px at 93.75% 84%, rgba(255, 0, 255, 0.2) 0%, transparent 70%);
+    animation: cityDrift 60s linear infinite;
+}
+
+@keyframes cityDrift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes neonPulse {
+    0%, 100% { opacity: 1; filter: blur(0.5px) brightness(1); }
+    50% { opacity: 0.7; filter: blur(1px) brightness(1.2); }
+}
+
 /* CRT Scanlines */
 .scanlines::before {
     content: '';
