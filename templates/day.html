@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Daily Todo List - Manage your tasks day by day">
+    <title>{{.displayDate}} - Daily Todo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="scanlines">
+<div class="container">
+    <!-- Header -->
+    <header class="header glass-panel" role="banner">
+        <nav class="nav-arrows" aria-label="Date navigation">
+            <a href="/day/{{.prevDate}}" class="nav-btn" aria-label="Previous day">
+                <span aria-hidden="true">&larr;</span>
+            </a>
+        </nav>
+        <div class="date-info">
+            <div class="cyber-clock" id="cyber-clock" aria-live="polite"></div>
+            <h1 class="date-title">{{.displayDate}}</h1>
+            <p class="task-summary" aria-live="polite">{{.completedCount}}/{{.taskCount}} tasks completed</p>
+        </div>
+        <nav class="nav-arrows" aria-label="Date navigation">
+            <a href="/day/{{.nextDate}}" class="nav-btn" aria-label="Next day">
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Add Task Form (only show within ±1 day) -->
+    {{if .isEditable}}
+    <section class="add-task glass-panel" aria-labelledby="add-task-title">
+        <h2 id="add-task-title" class="section-title">Add New Task</h2>
+        <form action="/tasks" method="POST" class="task-form task-form-inline">
+            <input type="hidden" name="date" value="{{.date}}">
+            <div class="form-group form-group-grow">
+                <input type="text" name="title" placeholder="What needs to be done?" class="input-field" required autocomplete="off" aria-label="Task title">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </section>
+    {{end}}
+
+    <!-- Task List -->
+    <section class="task-list glass-panel" aria-labelledby="tasks-title">
+        <h2 id="tasks-title" class="section-title">Today's Tasks</h2>
+
+        {{if eq .taskCount 0}}
+        <p class="empty-state">{{if .isEditable}}No tasks for this day. Add one above!{{else}}No tasks recorded for this day.{{end}}</p>
+        {{else}}
+        <ul class="tasks" role="list">
+            {{$isEditable := .isEditable}}
+            {{range $index, $task := .tasks}}
+            <li class="task-item {{if $task.Completed}}completed{{end}}" data-index="{{$index}}">
+                <!-- View Mode -->
+                <div id="view-{{$task.ID}}" class="task-main">
+                    <form action="/tasks/{{$task.ID}}/toggle" method="POST" class="toggle-form">
+                        <button type="submit" class="checkbox {{if $task.Completed}}checked{{end}}" aria-label="{{if $task.Completed}}Mark as incomplete{{else}}Mark as complete{{end}}: {{$task.Title}}">
+                            {{if $task.Completed}}<span aria-hidden="true">&#10003;</span>{{end}}
+                        </button>
+                    </form>
+                    <div class="task-content">
+                        <span class="task-title">{{$task.Title}}</span>
+                        {{if $task.CarriedFromDate}}
+                        <span class="carried-badge" title="Carried over from {{$task.CarriedFromDate}}">
+                            <span aria-hidden="true">&#8634;</span> from {{$task.CarriedFromDate}}
+                        </span>
+                        {{end}}
+                    </div>
+                    <div class="task-actions">
+                        {{if $isEditable}}
+                        <button type="button" class="btn-icon" onclick="toggleEdit({{$task.ID}}, '{{$task.Title}}')" aria-label="Edit task: {{$task.Title}}">
+                            <span aria-hidden="true">&#9998;</span>
+                        </button>
+                        {{end}}
+                        <form action="/tasks/{{$task.ID}}/delete" method="POST" class="delete-form" onsubmit="return confirm('Delete this task?')">
+                            <button type="submit" class="btn-icon btn-danger" aria-label="Delete task: {{$task.Title}}">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Edit Mode (hidden by default) -->
+                {{if $isEditable}}
+                <div id="edit-{{$task.ID}}" class="edit-section" style="display: none;">
+                    <form action="/tasks/{{$task.ID}}/edit" method="POST" class="edit-form edit-form-inline">
+                        <div class="form-group form-group-grow">
+                            <input type="text" name="title" id="edit-title-{{$task.ID}}" class="input-field" required aria-label="Edit task title">
+                        </div>
+                        <div class="edit-actions">
+                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit({{$task.ID}})">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                {{end}}
+
+                <!-- Notes Section (always visible) -->
+                <div class="notes-section notes-visible" role="region" aria-label="Notes for {{$task.Title}}">
+                    {{if $task.Notes}}
+                    <ul class="notes-list">
+                        {{range $note := split $task.Notes "\n\n"}}
+                        {{if $note}}<li class="note-item">{{$note}}</li>{{end}}
+                        {{end}}
+                    </ul>
+                    {{end}}
+                    <form action="/tasks/{{$task.ID}}/notes" method="POST" class="notes-form notes-form-inline">
+                        <input type="text" name="notes" placeholder="Add a note..." class="input-field input-sm" aria-label="Add a note">
+                        <button type="submit" class="btn btn-secondary btn-sm">+</button>
+                    </form>
+                </div>
+            </li>
+            {{end}}
+        </ul>
+        {{end}}
+    </section>
+
+    <!-- Prepare Next Day -->
+    {{if .hasUncompleted}}
+    <section class="prepare-section glass-panel" aria-labelledby="prepare-title">
+        <h2 id="prepare-title" class="section-title">End of Day</h2>
+        <p class="prepare-text">Have uncompleted tasks? Carry them over to tomorrow.</p>
+        <form action="/day/{{.date}}/prepare-next" method="POST">
+            <button type="submit" class="btn btn-accent">
+                Prepare Tomorrow <span aria-hidden="true">&rarr;</span>
+            </button>
+        </form>
+    </section>
+    {{end}}
+
+    {{if .isToday}}
+    <a href="/day/{{.date}}" class="today-badge" aria-label="View today's tasks">Today</a>
+    {{end}}
+</div>
+
+<script>
+function toggleEdit(taskId, title) {
+    const viewSection = document.getElementById('view-' + taskId);
+    const editSection = document.getElementById('edit-' + taskId);
+    const titleInput = document.getElementById('edit-title-' + taskId);
+
+    viewSection.style.display = 'none';
+    editSection.style.display = 'block';
+
+    titleInput.value = title;
+    setTimeout(() => titleInput.focus(), 100);
+}
+
+function cancelEdit(taskId) {
+    const viewSection = document.getElementById('view-' + taskId);
+    const editSection = document.getElementById('edit-' + taskId);
+
+    editSection.style.display = 'none';
+    viewSection.style.display = 'flex';
+}
+
+// Cyber Clock
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const mins = String(now.getMinutes()).padStart(2, '0');
+    const secs = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('cyber-clock').textContent = hours + ':' + mins + ':' + secs;
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
